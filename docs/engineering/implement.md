@@ -30,19 +30,20 @@ If the tickets came from [to-tickets](https://aihero.dev/skills-to-tickets), [se
 
 ## What one run does
 
-A run has five steps, in order:
+A run has six steps, in order:
 
 1. Read the ticket or spec and work out the seams.
-2. Drive [tdd](https://aihero.dev/skills-tdd) at the pre-agreed seams, one red-green slice at a time.
-3. Typecheck often, run single test files as it goes.
-4. Run the full test suite once, at the end.
-5. Run [code-review](https://aihero.dev/skills-code-review), then commit to the current branch.
+2. Write the plan as numbered steps in the todo list, before any code.
+3. Drive [tdd](https://aihero.dev/skills-tdd) at the pre-agreed seams, one red-green slice at a time.
+4. Typecheck often, run single test files as it goes.
+5. Run the full test suite once, at the end.
+6. Run [code-review](https://aihero.dev/skills-code-review), then commit to the current branch.
 
 One run covers one ticket. The tickets [to-tickets](https://aihero.dev/skills-to-tickets) produces are tracer-bullet vertical slices sized to fit a single fresh [context window](https://www.aihero.dev/ai-coding-dictionary/context-window), so the intended rhythm is: clear context, implement one ticket, commit, clear again. Each ticket is self-contained, so you can discard the previous ticket's context.
 
 ## On Claude Code: implementer and reviewer subagents
 
-When the Agent tool is available and the `ponytail` and `ponytail-review` skills are installed, `implement` hands the build to an implementer [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent) (Sonnet 5.5, high effort) that calls `ponytail`, and the main agent keeps only that subagent's report (what it built, the commits, what it skipped). It then spawns a fresh reviewer subagent (Opus 5.5, high effort) that calls `ponytail-review` on those commits and relays the findings to you without fixing them. This path replaces the `tdd` and `code-review` steps. Without those skills, or off Claude Code, the run is the one described above.
+When the Agent tool is available and the `ponytail` and `ponytail-review` skills are installed, `implement` first writes the plan in the main context, then hands the build to an implementer [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent) (Sonnet 5.5, high effort) that calls `ponytail` and is told which plan steps it owns, and the main agent keeps only that subagent's report (what it built, the commits, what it skipped). It then spawns a fresh reviewer subagent (Opus 5.5, high effort) that calls `ponytail-review` on those commits and relays the findings to you without fixing them. This path replaces the `tdd` and `code-review` steps. Without those skills, or off Claude Code, the run is the one described above.
 
 ## Pre-agreed seams
 
@@ -81,6 +82,7 @@ The agent resolved `#2` against another numbered list in context, such as a todo
 ## It's working if
 
 - The session opens by reading the ticket or spec and restating what it will build, rather than asking you what to build.
+- A numbered plan appears in the todo list before the first edit or subagent.
 - You can see an actual `tdd` Skill tool call in the trace, not just tests appearing in the diff.
 - Typechecks and single test files run repeatedly during the run, and the full suite runs once near the end.
 - The run reaches a commit on your current branch without you prompting it to carry on.
