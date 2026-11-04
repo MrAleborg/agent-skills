@@ -14,16 +14,21 @@ This is a fork of [mattpocock/skills](https://github.com/mattpocock/skills). The
 
 ## What this fork changes
 
-### Implementer and reviewer subagents on Claude Code
+### Parallel rounds in implement
 
-[`implement`](./skills/engineering/implement/SKILL.md) and [`implement-spec`](./skills/engineering/implement-spec/SKILL.md) split building from reviewing when the Agent tool and the `ponytail` and `ponytail-review` skills are available:
+[`implement`](./skills/engineering/implement/SKILL.md) runs in rounds that only you end. It writes the plan as numbered steps in the todo list, so plan panes show it, and waits for your approval. Then it builds every unblocked step in parallel, each in its own worktree, merges them back one at a time, reviews what the round added, and proposes fixes. Each round of fixes you pick gets its own review.
 
 | Role | Model | Effort | Skill |
 | --- | --- | --- | --- |
-| Implementer subagent | Sonnet 5.5 | high | `ponytail` |
-| Reviewer subagent | Opus 5.5 | high | `ponytail-review` |
+| Implementer subagent, one per unblocked step | Sonnet 5.5 | high | `ponytail`, else `tdd` |
+| Merger subagent, one per finished implementer | Sonnet 5.5 | medium | git |
+| Reviewer subagent, one per round | Opus 5.5 | high | `ponytail-review`, else `code-review` |
 
-The main agent keeps the implementer's report (what it built, the commits, what it skipped) and relays the reviewer's findings without fixing them. In `implement-spec` the single fix subagent after the review is unchanged. Without those skills, or off Claude Code, the original `tdd` and `code-review` flow runs.
+Without the Agent tool, the main agent runs the same rounds itself.
+
+### Implementer and reviewer subagents in implement-spec
+
+[`implement-spec`](./skills/engineering/implement-spec/SKILL.md) uses a `ponytail` implementer (Sonnet 5.5, high) and a `ponytail-review` reviewer (Opus 5.5, high) when the Agent tool and those skills are available. The single fix subagent after the review is unchanged. Without those skills, or off Claude Code, the original `tdd` and `code-review` flow runs.
 
 ### Router updated: ask-matt
 
@@ -248,7 +253,7 @@ Skills I use daily for code work.
 - **[setup-matt-pocock-skills](./skills/engineering/setup-matt-pocock-skills/SKILL.md)**: Configure this repo for the engineering skills (issue tracker, triage labels, domain doc layout). Run once per repo before using the other engineering skills.
 - **[to-spec](./skills/engineering/to-spec/SKILL.md)**: Turn the current conversation into a spec and publish it to the issue tracker. No interview, just synthesizes what you've already discussed.
 - **[to-tickets](./skills/engineering/to-tickets/SKILL.md)**: Break any plan, spec, or conversation into a set of tracer-bullet tickets, each declaring its blocking edges, written as text in a local file, or as native blocking links on a real tracker.
-- **[implement](./skills/engineering/implement/SKILL.md)** *(changed in this fork)*: Build the work described by a spec or set of tickets, driving `/tdd` at pre-agreed seams and closing out with `/code-review` before committing.
+- **[implement](./skills/engineering/implement/SKILL.md)** *(changed in this fork)*: Build one spec, ticket, or agreed plan in approved rounds: parallel implementer subagents per step, then a review and proposed fixes, until you say you're done.
 - **[implement-spec](./skills/engineering/implement-spec/SKILL.md)** *(changed in this fork)*: Implement a whole spec on one integration branch. Works the tickets as a task graph, running implementer subagents across the ready frontier for maximum concurrency, then closes out with `/code-review`.
 - **[wayfinder](./skills/engineering/wayfinder/SKILL.md)**: Plan a huge chunk of work, more than one agent session can hold, as a shared map of decision tickets on the issue tracker, and resolve them one at a time until the way to the destination is clear.
 - **[retro](./skills/engineering/retro/SKILL.md)**: Suggest improvements to the coding agent's environment (navigation, automated checks, coding standards, steering files, tooling) after a session, most severe first.
