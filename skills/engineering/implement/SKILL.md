@@ -4,25 +4,50 @@ description: "Implement a piece of work based on a spec or set of tickets."
 disable-model-invocation: true
 ---
 
-Implement the work described by the user in the spec or tickets.
+Implement the work described by the user in the spec, the tickets, or the plan agreed in this conversation. The work runs in **rounds**: plan, build, merge, review, and then the user decides what comes next. The cycle ends only when the user says they are done.
+
+## 1. Plan
 
 If the user passes a ticket reference, fetch it from the issue tracker and state its title before starting. If the reference is ambiguous, ask.
 
-Before writing any code or spawning any subagent, write the plan in this context: the ticket broken into numbered steps (`1.`, `1.1`, ...) with TodoWrite or TaskCreate. Keep each step's status current as the work moves.
+Before writing any code or spawning any subagent, write or refine the plan in this context as numbered steps (`1.`, `1.1`, ...) with TodoWrite or TaskCreate, so it also shows in any plan pane the harness offers. Each top-level step is one unit of parallel work, and its substeps stay with it. Mark a dependency in the step's title as `blocked by <n>`. Keep each step's status current as the work moves.
 
-Call the Skill tool with "tdd" where possible, at pre-agreed seams.
+Show the plan to the user in chat, grouped into **waves**: the steps that can run together first, then each wave that waits on an earlier one. Fold the user's edits into the plan and show it again. This step is done when the user approves the plan.
 
-Run typechecking regularly, single test files regularly, and the full test suite once at the end.
+## 2. Build the round
 
-Once done, call the Skill tool with "code-review" to review the work.
+Note the current branch name and its HEAD SHA: the SHA is this round's starting point.
 
-Commit your work to the current branch.
+The **frontier** is every pending top-level step whose blockers are complete. Spawn one **implementer subagent** per frontier step, all in the same response, each with `isolation: "worktree"`, model Sonnet 5.5, effort high. Give it context pointers (the ticket, spec, or agreed plan), not copies, and name each step it owns (`Step 2`, `Step 2.1`). Tell it to:
 
-## On Claude Code
+- confirm its worktree is based on the current branch tip, and reset onto it if not;
+- call the Skill tool with "ponytail" to build its steps if that skill is installed, otherwise "tdd" at pre-agreed seams;
+- run typechecking and single test files regularly;
+- commit in its worktree;
+- report what it built, its branch, its commits, and anything it skipped or is unsure about.
 
-If the Agent tool is available and the `ponytail` and `ponytail-review` skills are installed, split the work across two subagents instead of building and reviewing in this context. Otherwise follow the steps above.
+When an implementer reports, spawn a **merger subagent** (model Sonnet 5.5, effort medium) to merge that implementer's branch into the current branch. Run one merger at a time: the next waits for the previous one's report. Tell the merger to:
 
-1. Write the plan first, as above. Then spawn an **implementer subagent** (model Sonnet 5.5, effort high) and tell it to call the Skill tool with "ponytail" to build the work, then commit to the current branch. Give it context pointers (the ticket, spec, or agreed plan), not copies, and name each plan step it owns in its prompt, one by one (`Step 1`, `Step 2`). Skip the `tdd` and `code-review` steps above: the implementer owns the build, and the reviewer owns the review.
-2. The subagent reports back the context you need and its implementation result: what it built, the commits, and anything it skipped or is unsure about. Keep that report in this context.
-3. Once it reports done, spawn a **reviewer subagent** (model Opus 5.5, effort high) and tell it to call the Skill tool with "ponytail-review" on the commits the implementer made, pointing it at the same ticket or spec.
-4. Relay the reviewer's findings to the user. Don't fix them unprompted.
+- resolve mechanical conflicts (imports, neighbouring edits that don't overlap in meaning), then run the typecheck;
+- abort the merge when both sides change the same behaviour, leaving the current branch clean;
+- remove the worktree and its branch after a clean merge;
+- report only: merged yes or no, the SHAs that landed, and each conflict it resolved or left.
+
+On a conflict the merger left, relay it to the user and wait for direction. After each clean merge, recompute the frontier and spawn implementers for the newly unblocked steps.
+
+This step is done when every step in the plan is merged. Then run the full test suite once.
+
+## 3. Review the round
+
+Spawn a **reviewer subagent** (model Opus 5.5, effort high) and tell it to call the Skill tool with "ponytail-review" if that skill is installed, otherwise "code-review", on `<round start SHA>..HEAD`, pointed at the same ticket or spec.
+
+Relay the reviewer's findings to the user as numbered proposed fixes. Fix nothing unprompted.
+
+## 4. Next round or done
+
+- The user picks fixes: add each as a new plan step. The pick is the approval, so go straight back to step 2 for a new round, and its own review.
+- The user says they are done: report the commits now on the current branch and stop.
+
+## Without the Agent tool
+
+Run the same rounds in this context. Build the frontier steps yourself one at a time, calling the Skill tool with "tdd" at pre-agreed seams, running typechecking and single test files regularly, and committing to the current branch after each step. In step 3, call the Skill tool with "code-review" on the round's range yourself. The plan approval and the review loop stay the same.
