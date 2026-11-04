@@ -26,6 +26,14 @@ No em-dashes anywhere in this repo's prose (`SKILL.md` files, docs, `README.md`,
 
 ## Agent skills
 
+### Issue tracker
+
+GitHub Issues on `MrAleborg/skills`, via the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
 ### Triage labels
 
 Canonical names, unchanged. See `docs/agents/triage-labels.md`. Issues are judged against [`SCOPE.md`](./SCOPE.md).
+
+### Domain docs
+
+Single-context: `GLOSSARY.md` at the root, ADRs in `.agents/adr/`. See `docs/agents/domain.md`.
