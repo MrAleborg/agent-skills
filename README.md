@@ -21,7 +21,6 @@ This is a fork of [mattpocock/skills](https://github.com/mattpocock/skills). The
 | Role | Model | Effort | Skill |
 | --- | --- | --- | --- |
 | Implementer subagent, one per unblocked step | Sonnet 5.5 | high | `ponytail`, else `tdd` |
-| Merger subagent, one per finished implementer | Sonnet 5.5 | medium | git |
 | Reviewer subagent, one per round | Opus 5.5 | high | `ponytail-review`, else `code-review` |
 
 Without the Agent tool, the main agent runs the same rounds itself.

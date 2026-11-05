@@ -34,7 +34,7 @@ A run is a loop of **rounds**, and only you end it:
 
 1. **Plan.** The main agent writes the ticket as numbered steps in the todo list (`1.`), each broken into subtasks (`1.1`, `1.2`) and each top-level step marking what it is `blocked by`. It shows you the plan grouped into **waves** of steps that can run together, and builds nothing until you approve.
 2. **Build.** Every unblocked step goes to its own implementer [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent) in its own git worktree, all at once. As steps land, the ones they were blocking start.
-3. **Merge.** A merger subagent brings each finished worktree into your current branch, one at a time. It fixes mechanical conflicts itself. A conflict where two steps changed the same behaviour stops the run and comes to you.
+3. **Merge.** The main agent brings each finished worktree into your current branch, one at a time. It fixes mechanical conflicts itself. A conflict where two steps changed the same behaviour stops the run and comes to you.
 4. **Review.** A fresh reviewer subagent reviews only what this round added, and the findings come back to you as numbered proposed fixes.
 5. **Decide.** Pick the fixes you want and they become the next round's plan steps, each with its subtasks, and get their own review. Or say you're done.
 
@@ -42,12 +42,11 @@ Because the plan lives in the todo list, a plan pane such as the agent-monitor m
 
 ## Who does what
 
-On Claude Code, the main agent only plans, dispatches, and relays. The heavy work runs in subagents, so merge output and build logs stay out of the main [context window](https://www.aihero.dev/ai-coding-dictionary/context-window):
+On Claude Code, the main agent plans, dispatches, merges, and relays. The heavy work runs in subagents, so build logs stay out of the main [context window](https://www.aihero.dev/ai-coding-dictionary/context-window):
 
 | Role | Model | Effort | Calls |
 | --- | --- | --- | --- |
 | Implementer, one per unblocked step | Sonnet 5.5 | high | `ponytail`, or [tdd](https://aihero.dev/skills-tdd) when it isn't installed |
-| Merger, one per finished implementer | Sonnet 5.5 | medium | git |
 | Reviewer, one per round | Opus 5.5 | high | `ponytail-review`, or [code-review](https://aihero.dev/skills-code-review) when it isn't installed |
 
 Without the Agent tool, the main agent runs the same rounds itself: it builds the steps one at a time with `tdd`, commits after each, and runs `code-review` on the round. The plan approval and the fix loop stay.
@@ -93,7 +92,6 @@ The agent resolved `#2` against another numbered list in context, such as a todo
 - The session opens by reading the ticket or spec and showing you a numbered plan grouped into waves, rather than asking you what to build.
 - No code is written and no subagent starts until you approve the plan.
 - Independent steps start at the same time, each in its own worktree, and the plan pane shows who owns each step.
-- The main conversation shows short merger reports, not raw merge output.
 - After each round you get numbered proposed fixes, and nothing is fixed until you pick.
 - The run ends when you say so, with every round's work committed on your current branch.
 
