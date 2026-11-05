@@ -30,6 +30,9 @@ Communication to and from subagents should be sparse. Communicate primarily thro
    - merges the integration branch tip into its own branch before reporting done
 
 5. Once an **implementer subagent** completes, merge its branch into the integration branch yourself, one at a time.
+   - resolve mechanical conflicts (imports, neighbouring edits that don't overlap in meaning), then run the typecheck;
+   - abort the merge when both sides change the same behaviour, leaving the integration branch clean, then relay the conflict to the user and wait for direction;
+   - remove the worktree and its branch after a clean merge.
 
 6. If this changes the **frontier** of available tickets, kick off more **implementer subagents** to work on the new tickets. This allows for maximum concurrency.
 
