@@ -26,14 +26,13 @@ The **frontier** is every pending top-level step whose blockers are complete. Sp
 - commit in its worktree;
 - report what it built, its branch, its commits, and anything it skipped or is unsure about.
 
-When an implementer reports, spawn a **merger subagent** (model Sonnet 5.5, effort medium) to merge that implementer's branch into the current branch. Run one merger at a time: the next waits for the previous one's report. Tell the merger to:
+When an implementer reports, merge its branch into the current branch yourself, one implementer at a time:
 
 - resolve mechanical conflicts (imports, neighbouring edits that don't overlap in meaning), then run the typecheck;
-- abort the merge when both sides change the same behaviour, leaving the current branch clean;
-- remove the worktree and its branch after a clean merge;
-- report only: merged yes or no, the SHAs that landed, and each conflict it resolved or left.
+- abort the merge when both sides change the same behaviour, leaving the current branch clean, then relay the conflict to the user and wait for direction;
+- remove the worktree and its branch after a clean merge.
 
-On a conflict the merger left, relay it to the user and wait for direction. After each clean merge, recompute the frontier and spawn implementers for the newly unblocked steps.
+After each clean merge, recompute the frontier and spawn implementers for the newly unblocked steps.
 
 This step is done when every step in the plan is merged. Then run the full test suite once.
 
