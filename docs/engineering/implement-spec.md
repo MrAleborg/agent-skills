@@ -33,6 +33,8 @@ Everything lands on one branch. Each implementer:
 2. builds its ticket with [tdd](https://aihero.dev/skills-tdd), red-green one slice at a time,
 3. merges the integration branch tip into its own branch before reporting done, so landing it is a fast-forward.
 
+The orchestrator then merges each finished branch into the integration branch itself, one at a time. It fixes mechanical conflicts itself. A conflict where two tickets changed the same behaviour stops the run and comes to you.
+
 The tracker decides whether a pull request exists at all. If your tracker closes work through PRs, or you ask for one, the skill opens a draft PR after the first merge and marks it ready at the end. Otherwise the run stops on the integration branch with every ticket resolved the way your tracker closes work, which works fully offline against a local markdown tracker.
 
 Implementers talk to the orchestrator through [context pointers](https://www.aihero.dev/ai-coding-dictionary/context-pointer) (the spec, the ticket, shared exploration notes, earlier commits) rather than pasted summaries. This keeps each subagent's prompt small and leaves room in the orchestrator's window for the graph.
