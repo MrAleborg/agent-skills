@@ -1,0 +1,3 @@
+interface:
+  display_name: "ATS CV"
+  short_description: "Tailor an ATS-proof CV to a job offer"

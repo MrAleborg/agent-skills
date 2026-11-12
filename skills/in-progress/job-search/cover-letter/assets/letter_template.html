@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jane Doe - Cover letter</title>
+<!--
+  House letter style. Keep the CSS and the class names: letter_check.py reads
+  .role, .contact, .to, .place, .subject and the <p> elements (the body) by class/tag.
+  - One A4 page. If the check reports 2 pages, cut words; do not shrink the font or margins.
+  - .role has no wide letter-spacing on purpose: spaced capitals extract as "T E C H  L E A D".
+  - pdftotext interleaves the name and contact columns line by line; the checker compares header text per line, so that is fine.
+  - Numbers that come from the offer (reference, dates) go only in .subject, .to and .place.
+  - French: lang="fr", "Objet :", "Madame, Monsieur,", "Lyon, le 10 novembre 2026",
+    closing "Je vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées."
+  Replace every sample line below.
+-->
+<style>
+ @page { size: A4; margin: 0; }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ html, body { width: 210mm; }
+ :root {
+  --ink: #1f2a30; --muted: #5b6b73; --line: #e2e8ea;
+  --teal: #143a44; --teal2: #1d515f; --accent: #d99a4e;
+ }
+ body {
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  color: var(--ink); font-size: 10.6px; line-height: 1.55;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  padding: 20mm 22mm 16mm 22mm;
+ }
+ .serif { font-family: 'Georgia', 'Times New Roman', serif; }
+ .head { display: flex; justify-content: space-between; align-items: flex-end; gap: 8mm; }
+ .name { font-size: 27px; font-weight: 700; color: var(--teal); line-height: 1.02; letter-spacing: 0.3px; }
+ .role { font-size: 9.2px; letter-spacing: 0.6px; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-top: 2mm; }
+ .contact { text-align: right; font-size: 9px; color: var(--muted); line-height: 1.6; }
+ .contact a { color: var(--muted); text-decoration: none; }
+ .rule { height: 2px; width: 100%; background: linear-gradient(90deg, var(--accent) 0 26mm, var(--line) 26mm); margin: 4mm 0 7mm 0; }
+ .meta { display: flex; justify-content: space-between; align-items: flex-start; gap: 10mm; margin-bottom: 7mm; }
+ .to { font-size: 10px; line-height: 1.5; }
+ .to .org { font-weight: 700; color: var(--teal2); }
+ .place { font-size: 10px; color: var(--muted); white-space: nowrap; }
+ .subject { font-size: 10.6px; margin-bottom: 5.5mm; }
+ .subject strong { color: var(--teal); }
+ p { margin-bottom: 3.6mm; text-align: justify; }
+ .sign { margin-top: 4mm; }
+ .sign .nm { font-weight: 700; color: var(--teal); margin-top: 6mm; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="head">
+  <div>
+    <div class="name serif">Jane Doe</div>
+    <div class="role">Senior Backend Engineer</div>
+  </div>
+  <div class="contact">
+    Lyon (69003), France<br>
+    +33 6 00 00 00 00<br>
+    <a href="mailto:jane.doe@example.com">jane.doe@example.com</a><br>
+    <a href="https://www.linkedin.com/in/example">in/example</a>
+  </div>
+</div>
+<div class="rule"></div>
+
+<div class="meta">
+  <div class="to">
+    <div class="org">Example Corp</div>
+    Platform Team<br>
+    Paris, France
+  </div>
+  <div class="place">Lyon, 11 November 2026</div>
+</div>
+
+<div class="subject"><strong>Subject:</strong> application for the Senior Backend Engineer position (ref. 1234)</div>
+
+<p>Dear Hiring Team,</p>
+
+<p>Hook: the one thing in this offer that connects to the candidate's work, and why it prompts the application.</p>
+
+<p>Proof 1: the offer's main requirement, answered with a named job, project, tool and outcome from the master CV.</p>
+
+<p>Proof 2: the second requirement block (leadership, quality, domain...), same method.</p>
+
+<p>Close: location and availability from the user's answers, then the request for an interview.</p>
+
+<p>Thank you for your time and consideration.</p>
+
+<div class="sign">
+  <div class="nm serif">Jane Doe</div>
+</div>
+
+</body>
+</html>

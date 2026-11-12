@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jane Doe - CV Senior Backend Engineer (ATS)</title>
+<!--
+  ATS template. Proven to parse cleanly in open-resume and pdftotext when printed
+  with headless Chromium. Rules that keep it parseable:
+  - one column only; the .row flex lines put a date/location on the right of the SAME line, which parsers read fine
+  - real text only: no images, icons, SVG, tables, text boxes, headers/footers, or CSS columns
+  - section headings are <h2> with standard names (Summary, Skills, Professional Experience, Education, ...)
+  - contact line: plain text separated by " | ", email and phone written out in full
+  - keep a space between the <span>s of a .row or .contact line: flex hides it in the PDF, but without it the DOCX glues them ("EngineerMarch 2021")
+  - bullets are a literal "•" character, not list-style images
+  - no inline <span> around words in running text: open-resume drops the spaces next to a span ("building<span>x</span> y" parses as "buildingxy")
+  - phone as the 10-digit national number (0600000000): open-resume only recognises US-shaped 10-digit numbers; spaced groups are missed and +33 makes it grab the wrong digits
+  - plain ASCII hyphens only (no U+2011 non-breaking hyphen): exotic dashes break keyword matching
+  - no job may start at the top of a page, even after one leftover bullet: open-resume merges it into the previous job (ats_check.py FAILs on it, French included).
+    Put class="pb" on an earlier bullet or project so the break falls inside a job. If the job before the break is short, moving .pb is not enough: cut a line or two on page 1 first
+  - personal or side projects go in their own <h2> section using .proj/.ptitle/.b only, never .emp: .emp means "a job" to the checker
+  - open-resume only recognises English school words (University, School, Institute): a French school name gives a WARN, fine to leave
+  Replace the sample content below; keep the structure and the CSS.
+-->
+<style>
+@page { size: A4; margin: 10mm 15mm; }
+body { font-family: Arial, Helvetica, sans-serif; font-size: 10px; line-height: 1.32; color: #000; }
+h1 { font-size: 20px; margin: 0 0 1mm 0; }
+h2 { font-size: 11.5px; text-transform: uppercase; border-bottom: 1px solid #000; margin: 3.2mm 0 1.4mm 0; padding-bottom: 0.5mm; break-after: avoid; }
+p { margin: 0 0 0.8mm 0; } a { color: #000; }
+.row { display: flex; justify-content: space-between; gap: 4mm; }
+.role { font-size: 11.5px; font-weight: bold; margin: 0; break-after: avoid; }
+.emp { margin-top: 4.5mm; padding-top: 1.2mm; border-top: 0.6px solid #777; } .emp.first { margin-top: 1mm; padding-top: 0; border-top: none; }
+.org { font-style: italic; margin: 0 0 0.8mm 0; break-after: avoid; } .org b { font-style: normal; }
+.b { margin: 0 0 0.3mm 0; padding-left: 3.5mm; text-indent: -3.5mm; break-inside: avoid; }
+.proj .b { margin-left: 5mm; } .ptitle { margin: 0.9mm 0 0.3mm 5mm; font-style: italic; font-weight: bold; break-after: avoid; }
+.emp .org + .proj .ptitle { break-before: avoid; } .pb { break-before: page; }
+.edu { margin-top: 2.2mm; } .edu.first { margin-top: 0; }
+.contact { display: flex; flex-wrap: wrap; gap: 0 1.6mm; margin: 0 0 0.8mm 0; } .contact span { white-space: nowrap; }
+</style>
+</head>
+<body>
+<h1>Jane Doe</h1>
+<p><b>Senior Backend Engineer</b> | M.Sc. in Computer Science</p>
+<div class="contact"><span>Lyon, FR</span> <span>|</span> <span>0600000000</span> <span>|</span> <span>jane.doe@example.com</span> <span>|</span> <span>https://www.linkedin.com/in/jane-doe</span> <span>|</span> <span>https://janedoe.dev</span></div>
+
+<h2>Summary</h2>
+<p>Backend engineer with 8 years building high-traffic APIs in Go and Python. Looking for a senior backend role.</p>
+
+<h2>Skills</h2>
+<p><b>Languages:</b> Go, Python, SQL</p>
+<p><b>Infrastructure:</b> PostgreSQL, Kafka, Docker, Kubernetes</p>
+
+<h2>Professional Experience</h2>
+<div class="emp first">
+  <div class="row role"><span>Senior Backend Engineer</span> <span>March 2021 – Present</span></div>
+  <div class="row org"><span><b>Example Corp</b></span> <span>Lyon, France</span></div>
+  <p class="b">•&nbsp;Designed the payments API serving 2 million requests per day.</p>
+  <div class="proj">
+    <p class="ptitle">Project: Event pipeline (2023)</p>
+    <p class="b">•&nbsp;Migrated batch jobs to a Kafka event pipeline.</p>
+    <p class="b">•&nbsp;<b>Skills:</b> Go, Kafka, PostgreSQL</p>
+  </div>
+</div>
+<div class="emp">
+  <div class="row role"><span>Software Engineer</span> <span>September 2017 – February 2021</span></div>
+  <div class="row org"><span><b>Sample Ltd</b></span> <span>Paris, France</span></div>
+  <p class="b">•&nbsp;Built internal REST services in Python and Django.</p>
+</div>
+
+<h2>Personal Projects</h2>
+<div class="proj">
+  <p class="ptitle">Project: Open-source CLI (2024)</p>
+  <p class="b">•&nbsp;Wrote a command-line tool in Go for log analysis.</p>
+</div>
+
+<h2>Education</h2>
+<div class="edu first">
+  <div class="row role"><span>M.Sc. in Computer Science</span> <span>2015 – 2017</span></div>
+  <div class="row org"><span><b>Example University</b></span> <span>Lyon, France</span></div>
+</div>
+
+<h2>Languages</h2>
+<p>French: Native | English: Fluent</p>
+</body>
+</html>
