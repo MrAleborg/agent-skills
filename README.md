@@ -24,6 +24,25 @@ claude plugin marketplace add MrAleborg/agent-skills
 claude plugin install mraleborg-skills@mraleborg
 ```
 
+### Dependencies
+
+`implement-parallel` and `implement-spec-parallel` call skills from two other plugins. Install both next to this one.
+
+[Matt Pocock's skills](https://github.com/mattpocock/skills) provide `tdd`, `code-review` and `setup-matt-pocock-skills`:
+
+```sh
+claude plugin install mattpocock-skills@claude-plugins-official
+```
+
+Then run `/setup-matt-pocock-skills` once in each repo where you use these skills, so they know your issue tracker.
+
+[Ponytail](https://github.com/DietrichGebert/ponytail) is optional. When it is installed, the implement skills use `ponytail` to build and `ponytail-review` to review, instead of `tdd` and `code-review`:
+
+```sh
+claude plugin marketplace add DietrichGebert/ponytail
+claude plugin install ponytail@ponytail
+```
+
 Local dev (symlinks every skill into `~/.claude/skills` and `~/.agents/skills`):
 
 ```sh
