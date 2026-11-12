@@ -18,13 +18,9 @@ Show the plan to the user in chat, grouped into **waves**: the steps that can ru
 
 Note the current branch name and its HEAD SHA: the SHA is this round's starting point.
 
-The **frontier** is every pending top-level step whose blockers are complete. Spawn one **implementer subagent** per frontier step, all in the same response with no cap on their number, each with `isolation: "worktree"`, model Sonnet 5.5, effort high. Give it context pointers (the ticket, spec, or agreed plan), not copies, and name each step it owns (`Step 2`, `Step 2.1`). Tell it to:
+The **frontier** is every pending top-level step whose blockers are complete. Spawn one **implementer subagent** per frontier step, all in the same response with no cap on their number, each with `subagent_type: "mraleborg-skills:implementer"` and `isolation: "worktree"`. Give it context pointers (the ticket, spec, or agreed plan), not copies, the current branch name, and each step it owns (`Step 2`, `Step 2.1`). The agent already knows to reset onto that branch, build with `ponytail` or `tdd`, typecheck and test, commit in its worktree, and report.
 
-- confirm its worktree is based on the current branch tip, and reset onto it if not;
-- call the Skill tool with "ponytail" to build its steps if that skill is installed, otherwise "tdd" at pre-agreed seams;
-- run typechecking and single test files regularly;
-- commit in its worktree;
-- report what it built, its branch, its commits, and anything it skipped or is unsure about.
+If `mraleborg-skills:implementer` is not in the available agent types, spawn `general-purpose` with model Sonnet 5.5 and effort high, and tell it to do those same things.
 
 When an implementer reports, merge its branch into the current branch yourself, one implementer at a time:
 
@@ -38,7 +34,7 @@ This step is done when every step in the plan is merged. Then run the full test 
 
 ## 3. Review the round
 
-Spawn a **reviewer subagent** (model Opus 5.5, effort high) and tell it to call the Skill tool with "ponytail-review" if that skill is installed, otherwise "code-review", on `<round start SHA>..HEAD`, pointed at the same ticket or spec.
+Spawn a **reviewer subagent** with `subagent_type: "mraleborg-skills:reviewer"` on `<round start SHA>..HEAD`, pointed at the same ticket or spec. If that agent type is not available, spawn `general-purpose` with model Opus 5.5 and effort high, and tell it to call the Skill tool with "ponytail-review" if that skill is installed, otherwise "code-review", on that range, and fix nothing.
 
 Relay the reviewer's findings to the user as numbered proposed fixes. Fix nothing unprompted.
 
