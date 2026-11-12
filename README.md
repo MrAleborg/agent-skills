@@ -9,6 +9,8 @@ My own agent skills. They are meant to sit next to [Matt Pocock's skills](https:
 - [implement-parallel](./skills/implement-parallel/SKILL.md): my take on Matt's `implement`. Plan first, approve with "go", parallel implementer rounds, the main agent merges, then a review loop.
 - [implement-spec-parallel](./skills/implement-spec-parallel/SKILL.md): my take on Matt's `implement-spec`. The main agent merges the ticket branches itself, following explicit merge rules.
 
+Both spawn this plugin's subagents from [`agents/`](./agents): `implementer` (Sonnet, writes code in a worktree), `reviewer` (Opus, read-only) and `explorer` (Sonnet, writes notes outside the repo). Without the plugin installed, they fall back to `general-purpose` subagents.
+
 ### Model-invoked
 
 - [version-control](./skills/version-control/SKILL.md): git workflow and hygiene, from commits and branches to PRs and recovering from mistakes.

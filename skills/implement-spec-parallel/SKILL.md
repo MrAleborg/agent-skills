@@ -20,13 +20,13 @@ Communication to and from subagents should be sparse. Communicate primarily thro
 
 1. Read the spec and tickets to understand the task graph.
 
-2. (optional) Use an **exploration subagent** to conduct any exploration required by the tickets - relevant codebase files or external documentation. Ensure the exploration subagent can save files - it should save its markdown notes in a directory outside the repo, accessible by all future subagents. This lets **implementer subagents** focus on implementation rather than exploration.
+2. (optional) Use an **exploration subagent** (`subagent_type: "mraleborg-skills:explorer"`) to conduct any exploration required by the tickets - relevant codebase files or external documentation. Give it a directory outside the repo, accessible by all future subagents, for its markdown notes. This lets **implementer subagents** focus on implementation rather than exploration.
 
 3. Create the integration branch. If the issue tracker closes work through PRs, or the user asks for one, open a draft PR after the first merge in step 5 (a branch with no commits ahead of main can't open one), marked as closing the spec and tickets.
 
-4. Use **implementer subagents** to implement each ticket, each in its own worktree on its own branch. Each implementer subagent:
+4. Use **implementer subagents** (`subagent_type: "mraleborg-skills:implementer"`) to implement each ticket, each in its own worktree on its own branch. Give each one the integration branch name and its ticket. Each implementer subagent:
    - confirms its worktree is based on the integration branch before starting, and resets onto it if not;
-   - calls the Skill tool with `tdd` to build the ticket (on Claude Code with the `ponytail` skill installed, `ponytail` instead, and spawn the implementer with model Sonnet 5.5 and effort high);
+   - calls the Skill tool with `tdd` to build the ticket (`ponytail` instead when that skill is installed);
    - merges the integration branch tip into its own branch before reporting done
 
 5. Once an **implementer subagent** completes, merge its branch into the integration branch yourself, one at a time.
@@ -38,7 +38,9 @@ Communication to and from subagents should be sparse. Communicate primarily thro
 
 7. Once all tickets are complete, call the Skill tool with `code-review` on the integration branch. Fix all issues raised by the code review in a single **implementer subagent**.
 
-   On Claude Code with the `ponytail-review` skill installed, replace the `code-review` call with a **reviewer subagent** (model Opus 5.5, effort high) that calls the Skill tool with `ponytail-review` on the integration branch, pointed at the spec. The fix step is unchanged.
+   On Claude Code, replace the `code-review` call with a **reviewer subagent** (`subagent_type: "mraleborg-skills:reviewer"`) on the integration branch, pointed at the spec. It uses `ponytail-review` when installed, otherwise `code-review`. The fix step is unchanged.
+
+   Where a `mraleborg-skills:*` agent type is not in the available agent types, spawn `general-purpose` instead: Sonnet 5.5, effort high for the explorer and implementers, Opus 5.5, effort high for the reviewer, with the same instructions.
 
 8. If a draft PR exists, mark it ready for review. Otherwise, resolve each ticket the way the issue tracker closes work, and report the integration branch.
 
