@@ -40,7 +40,7 @@ Communication to and from subagents should be sparse. Communicate primarily thro
 
    On Claude Code, replace the `code-review` call with a **reviewer subagent** (`subagent_type: "mraleborg-skills:reviewer"`) on the integration branch, pointed at the spec. It uses `ponytail-review` when installed, otherwise `code-review`. The fix step is unchanged.
 
-   Where a `mraleborg-skills:*` agent type is not in the available agent types, spawn `general-purpose` instead: Sonnet 5.5, effort high for the explorer and implementers, Opus 5.5, effort high for the reviewer, with the same instructions.
+   Where a `mraleborg-skills:*` agent type is not in the available agent types, spawn `general-purpose` instead: Haiku 5.5, effort medium for the explorer, Sonnet 5.5, effort high for the implementers, Opus 5.5, effort high for the reviewer, with the same instructions.
 
 8. If a draft PR exists, mark it ready for review. Otherwise, resolve each ticket the way the issue tracker closes work, and report the integration branch.
 
