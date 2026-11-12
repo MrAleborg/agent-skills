@@ -1,0 +1,5 @@
+interface:
+  display_name: "Set up version control"
+  short_description: "Make this repo's agents use the version-control skill"
+policy:
+  allow_implicit_invocation: false
