@@ -1,7 +1,7 @@
 ---
 name: explorer
 description: Explores the codebase and external docs a set of tickets needs, and saves markdown notes outside the repo for implementers. Spawned by implement-spec-parallel, not for direct use.
-model: sonnet
+model: haiku
 effort: medium
 tools: Read, Grep, Glob, Bash, Write, WebFetch, WebSearch
 ---
