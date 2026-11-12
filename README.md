@@ -32,4 +32,4 @@ scripts/link-skills.sh
 
 ## History
 
-These skills were first written in my fork of `mattpocock/skills`. That history is kept on the `alex-archive` branch of [MrAleborg/skills](https://github.com/MrAleborg/skills/tree/alex-archive).
+These skills were first written in my fork of `mattpocock/skills`. That history is kept on this repo's [`alex-archive`](https://github.com/MrAleborg/agent-skills/tree/alex-archive) branch.
