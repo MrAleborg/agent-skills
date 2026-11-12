@@ -1,0 +1,19 @@
+{
+  "name": "mraleborg-skills",
+  "version": "0.1.0",
+  "description": "MrAleborg's own agent skills: parallel implement flows, git hygiene, and job applications (ATS CV, cover letter). Meant to sit next to Matt Pocock's skills plugin.",
+  "author": {
+    "name": "MrAleborg",
+    "url": "https://github.com/MrAleborg"
+  },
+  "repository": "https://github.com/MrAleborg/agent-skills",
+  "license": "MIT",
+  "keywords": ["engineering", "skills", "git", "job-search"],
+  "skills": [
+    "./skills/implement-parallel",
+    "./skills/implement-spec-parallel",
+    "./skills/version-control",
+    "./skills/ats-cv",
+    "./skills/cover-letter"
+  ]
+}

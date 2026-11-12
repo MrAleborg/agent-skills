@@ -1,0 +1,17 @@
+{
+  "name": "mraleborg",
+  "owner": {
+    "name": "MrAleborg",
+    "url": "https://github.com/MrAleborg"
+  },
+  "description": "MrAleborg's own agent skills, as an installable Claude Code plugin.",
+  "plugins": [
+    {
+      "name": "mraleborg-skills",
+      "source": "./",
+      "description": "Parallel implement flows, git hygiene, and job applications (ATS CV, cover letter).",
+      "category": "engineering",
+      "keywords": ["engineering", "skills", "git", "job-search"]
+    }
+  ]
+}
