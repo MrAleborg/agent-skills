@@ -13,6 +13,7 @@
     "./skills/implement-parallel",
     "./skills/implement-spec-parallel",
     "./skills/version-control",
+    "./skills/setup-version-control",
     "./skills/ats-cv",
     "./skills/cover-letter"
   ]
