@@ -73,6 +73,8 @@ List the gaps to the user with a short reason each matters for this offer, and a
 
 If the user cannot answer now (they said so, or you run unattended), write the questions to `questions.md`, treat every answer as no, and keep `answers.md` free of gap terms. Then carry on: the CV is still useful, and the questions can be answered later for a second pass.
 
+When the user corrects a master fact later (false, or too strong where you placed it), fix the CV and `keywords.json` and keep the correction out of `answers.md`: the checker accepts every word in that file as a source, so a correction quoting the fact would whitelist it.
+
 Also ask here about anything else you need and cannot find in the master: for example which of two contradictory dates is right, or whether the user wants a specific job omitted. Do not guess.
 
 ### 4. Write the CV HTML
@@ -81,8 +83,8 @@ Start from `assets/cv_template.html` and keep its CSS and structure: the checker
 
 - **Contact line**: phone as the 10-digit national number (`0600000000`, reformatted from a master's `+33 6 00 00 00 00`; this is the same fact, and open-resume misses every other format), then email, city, LinkedIn and the candidate's personal website if the master gives one anywhere (it may sit inside a project or the links section, not the contact block).
 - **Headline** (line under the name): the offer's job title if the master supports it, plus the degree. Do not claim a title the candidate never held as a past job title; the headline describes what they are applying as. A keyword placed only in the headline (the offer's job title, typically) has no evidence quote naming it: record it as `matched` with the closest master evidence, expect the checker's inferred-match WARN, and list it at delivery like any other inferred match.
-- **Summary**: 3 to 5 sentences, densest in top keywords, every claim traceable to the master.
-- **Skills**: grouped lines; list every `matched`/`confirmed` keyword here in the offer's spelling, with qualifiers kept.
+- **Summary**: 3 to 5 sentences, densest in top keywords, every claim traceable to the master. Build it from the candidate's own central work. A fact the master words as a participation or a contribution stays in its job bullet, where that verb shows the candidate's share: lifted into the summary, the verb drops away and the claim reads stronger than it is.
+- **Skills**: grouped lines; list every `matched`/`confirmed` keyword here in the offer's spelling, with qualifiers kept. A group label is a claim about every item under it ("Object-oriented languages: Python, Java, C/C++" calls C object-oriented), so split the item or the line until the label is true of each one.
 - **Experience**: all jobs from the master, reverse chronological, dates exactly as in the master. Choose and reword bullets so the keywords appear *in context*: a keyword that is only in the skills list is weaker for both ATS ranking and the human reader. Drop bullets that serve nothing for this offer, but never drop a job (it would leave a gap in the timeline) unless the user asks.
 - **Projects**: the master groups work into named projects. Any project that uses one of the offer's keywords keeps its own `Project:` heading and at least one bullet naming that keyword, however old it is: the reader is looking for *every* place the candidate used that tool, and folding an old project into its job's summary makes the experience look smaller than it is. Projects with no offer keyword may be shortened to one line or dropped, to stay within 2 pages. Personal or side projects outside any job get their own `<h2>` section marked up as in the template (`.proj`, never `.emp`, which the checker counts as a job).
 - **Education, certifications, languages**: from the master. Publications and associative work only if relevant to the offer.
@@ -120,4 +122,10 @@ Report, briefly:
 - the master projects you shortened or dropped, so the user can ask for one back
 - the paths of the HTML, PDF and DOCX
 
-Then offer to upload the three files to the user's Drive (ask which folder; the profile's `drive_folder` is where past applications sit). Do not upload without a yes. Also offer the matching cover letter; on a yes, call the Skill tool with "cover-letter", which reuses this work folder.
+Then offer to upload the three files to the user's Drive. Do not upload without a yes. On a yes:
+
+- Upload into a subfolder named `<Company>_<Role>` inside the profile's `drive_folder` (create it if missing): one subfolder per offer, holding the CV and, later, the cover letter.
+- Pass `disableConversionToGoogleType: true`, so the PDF and DOCX stay files. A file reference (`sha256:<hash>:<path>`) is refused for files outside the session's working directory; copy them there first.
+- The Drive connector cannot replace a file's content. After any fix, upload the new version and offer to move the old one to the trash (reversible, but ask), so the subfolder holds one current set.
+
+Also offer the matching cover letter; on a yes, call the Skill tool with "cover-letter", which reuses this work folder.
