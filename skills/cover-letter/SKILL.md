@@ -40,7 +40,7 @@ Name the outputs like the user's past letters:
 
 ### 1. Read the offer for what it really asks
 
-Find the 2 or 3 requirement blocks that carry the role (for example: "Java tooling", "technical leadership", "quality in a regulated domain"), plus the hook: one specific thing in this offer (a responsibility, the product, the team's approach) that connects to the candidate's actual work. A specific hook is what separates a letter written for this offer from a generic one.
+Find the 2 or 3 requirement blocks that carry the role (for example: "Java tooling", "technical leadership", "quality in a regulated domain"), plus one specific thing in this offer (a responsibility, the product, the team's approach) that connects to the candidate's actual work: it anchors the first proof paragraph. That specific link is what separates a letter written for this offer from a generic one.
 
 Note the addressee (company, team, site, a named recruiter if given), the exact job title and any reference number: they go in the header and subject line.
 
@@ -69,7 +69,7 @@ Start from `assets/letter_template.html` and keep its CSS and class names; read 
 - **Subject**: "Subject: application for the <exact title> position (ref. <ref>)" / "Objet : candidature au poste de <intitulé exact> (réf. <réf>)". Leave out the reference if the offer has none.
 - **Salutation**: a named person if the offer gives one; otherwise "Dear Hiring Team," or "Madame, Monsieur,".
 - **Body, 3 to 5 paragraphs, 250 to 450 words**:
-  1. The hook: open on what *they* are looking for, in their own terms, then answer at once with the candidate's matching fact. "You are looking for an engineer who can ...", "Vous recherchez ...", or "Your search for a Tech Lead within the payments team caught my attention, particularly because the test strategy appears there as a responsibility of the role ...". Avoid administrative openings that recite the offer ("Your offer asks for X, Y and Z", "Votre offre demande ...") and flattery ("your offer describes almost word for word what I love", "votre entreprise prestigieuse"): the user called that "lèche-bottes". Say why this role and the candidate's work meet; do not praise.
+  1. The opening: state the application plainly, then give the 1 or 2 facts about the candidate that matter most for this role. "I am applying for the <exact title> position. A software engineer for <N> years, I ..." / "Je vous propose ma candidature au poste de <intitulé>. Ingénieur logiciel depuis <N> ans, j'ai ...". The offer itself stays out of the opening: paraphrasing it back ("Your offer describes an architect who ...", "Vous recherchez ...", "Votre offre demande ...") reads as a template, and the user called such a hook "horrible". Praise stays out too ("votre entreprise prestigieuse"): the user called that "lèche-bottes".
   2. and 3. One paragraph per requirement block, each built on its one story from step 2: the context, what the candidate did, the outcome, then one sentence connecting it to what the offer needs. Use the offer's vocabulary. Show the role played (specifications, architecture, review, mentoring) when the offer asks for seniority.
   4. Optional: how the candidate's way of working fits the domain or team described in the offer.
   5. The close: location or availability from `letter_answers.md` if the user gave them, then the request for an interview. End on what the candidate brings, never on what they lack.
@@ -105,4 +105,4 @@ Report briefly:
 - the offer requirements you did not claim (gaps), and the questions left in `questions.md` if any
 - the paths of the HTML and PDF
 
-Then offer to upload both files to the user's Drive (ask which folder; the profile's `drive_folder` is where past applications sit). Do not upload without a yes. If there is no tailored CV for this offer yet, offer one; on a yes, call the Skill tool with "ats-cv".
+Then offer to upload both files to the user's Drive, the way ats-cv's Deliver step describes (the offer's `<Company>_<Role>` subfolder, no conversion, re-upload and offer to trash the old version after a fix). Do not upload without a yes. If there is no tailored CV for this offer yet, offer one; on a yes, call the Skill tool with "ats-cv".
